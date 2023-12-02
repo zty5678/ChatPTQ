@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import config.FastSendMode
 import config.LocalAppConfig
+import example.imageviewer.view.Tooltip
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import repository.api.ChatCompletionService
@@ -70,7 +71,7 @@ fun ChatPage() {
 
         if (isSending) return@sendChat
 
-        textFieldValueState = textFieldValueState.copy(text="")
+        textFieldValueState = textFieldValueState.copy(text = "")
 
         coroutineScope.launch {
             isSending = true
@@ -108,7 +109,8 @@ fun ChatPage() {
                         message.content,
                         onValueChange = {},
                         label = {
-                            Text((if (message.role == "assistant") config.gptName else "我") + if (conversation.tokenUsage == null) "" else " (${conversation.tokenUsage}tks)",
+                            Text(
+                                (if (message.role == "assistant") config.gptName else "我") + if (conversation.tokenUsage == null) "" else " (${conversation.tokenUsage}tks)",
                                 modifier = Modifier
                                     .align(if (message.role == "assistant") Alignment.Start else Alignment.End)
                             )
@@ -121,17 +123,19 @@ fun ChatPage() {
 
                         Spacer(modifier = Modifier.width(5.dp))
 
-                        IconButton(iconPath = "icon_translate_to_eng.png") {
-                            textFieldValueState = textFieldValueState.copy(text = "Translate the following into English please:\n${message.content}")
+                        IconButton(iconPath = "icon_translate_to_eng.png", tooltipText = "将内容翻译成英文") {
+                            textFieldValueState =
+                                textFieldValueState.copy(text = "Translate the following into English please:\n${message.content}")
                             sendChat()
                         }
 
-                        IconButton(iconPath = "icon_translate.png") {
-                            textFieldValueState = textFieldValueState.copy("Translate the following into Chinese please:\n${message.content}")
+                        IconButton(iconPath = "icon_translate.png", tooltipText = "将内容翻译成中文") {
+                            textFieldValueState =
+                                textFieldValueState.copy("Translate the following into Chinese please:\n${message.content}")
                             sendChat()
                         }
 
-                        IconButton(iconPath = "icon_copy.png") {
+                        IconButton(iconPath = "icon_copy.png", tooltipText = "复制内容到剪贴板") {
                             copyToClipboard(message.content)
                         }
                     }
@@ -142,7 +146,8 @@ fun ChatPage() {
         Divider(
             modifier = Modifier.padding(vertical = 5.dp).fillMaxWidth(),
             color = Color(233, 233, 233),
-            thickness = 1.5.dp)
+            thickness = 1.5.dp
+        )
 
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth().weight(1f)) {
             OutlinedTextField(
@@ -150,7 +155,7 @@ fun ChatPage() {
                 modifier = Modifier
                     .weight(1f)
                     .onPreviewKeyEvent {
-                        when(FastSendMode.valueOf(config.fastSendMode)) {
+                        when (FastSendMode.valueOf(config.fastSendMode)) {
                             FastSendMode.LongPressEnter -> {
                                 if (it.key == Key(KeyEvent.VK_ENTER)) {
                                     return@onPreviewKeyEvent if (it.type == KeyEventType.KeyDown) {
@@ -175,6 +180,7 @@ fun ChatPage() {
                                 }
                                 false
                             }
+
                             FastSendMode.ShiftEnter -> {
                                 if (it.key == Key(KeyEvent.VK_ENTER) && it.type == KeyEventType.KeyUp) {
                                     LogUtils.d("isShiftPressed=${it.isShiftPressed}")
@@ -182,23 +188,30 @@ fun ChatPage() {
                                         sendChat()
                                         true
                                     } else {
-                                        val newText = textFieldValueState.text+"\n"
+                                        val newText = textFieldValueState.text + "\n"
                                         textFieldValueState =
-                                            textFieldValueState.copy(text=newText, selection = TextRange(newText.length))
+                                            textFieldValueState.copy(
+                                                text = newText,
+                                                selection = TextRange(newText.length)
+                                            )
                                         LogUtils.d("input=${textFieldValueState.text}======")
                                         false
                                     }
                                 } else false
                             }
+
                             FastSendMode.ControlEnter -> {
                                 if (it.key == Key(KeyEvent.VK_ENTER) && it.type == KeyEventType.KeyUp) {
                                     if (!it.isCtrlPressed) {
                                         sendChat()
                                         true
                                     } else {
-                                        val newText = textFieldValueState.text+"\n"
+                                        val newText = textFieldValueState.text + "\n"
                                         textFieldValueState =
-                                            textFieldValueState.copy(text=newText, selection = TextRange(newText.length))
+                                            textFieldValueState.copy(
+                                                text = newText,
+                                                selection = TextRange(newText.length)
+                                            )
                                         false
                                     }
                                 } else false
@@ -215,21 +228,26 @@ fun ChatPage() {
                 onValueChange = {
                     if (!inputEnabled || isSending) return@OutlinedTextField
                     textFieldValueState = it
-                    LogUtils.d("onValueChange inputCopy=${textFieldValueState.text}")
-
                 },
-                leadingIcon= if (isSending) {
+                leadingIcon = if (isSending) {
                     { Loading() }
                 } else null
             )
             Box(modifier = Modifier.size(80.dp)) {
-                IconButton(modifier = Modifier.align(Alignment.TopStart), iconPath = "icon_send.png") {
+                IconButton(modifier = Modifier.align(Alignment.TopStart),
+                    iconPath = "icon_send.png",
+                    tooltipText = "发送") {
                     sendChat()
                 }
-                IconButton(modifier = Modifier.align(Alignment.TopEnd), iconPath = "icon_delete.png") {
+                IconButton(modifier = Modifier.align(Alignment.TopEnd), iconPath = "icon_delete.png",
+                    tooltipText = "清空聊天记录") {
                     conversations.clear()
                 }
-                IconButton(modifier = Modifier.align(Alignment.BottomStart), iconPath = "icon_translate.png") {
+                IconButton(
+                    modifier = Modifier.align(Alignment.BottomStart),
+                    iconPath = "icon_translate.png",
+                    tooltipText = "将输入内容翻译成中文"
+                ) {
                     if (textFieldValueState.text.isBlank()) {
                         toaster.toastFailure("请输入翻译内容")
                         return@IconButton
@@ -237,12 +255,14 @@ fun ChatPage() {
                     textFieldValueState = textFieldValueState.copy("翻译成中文:\n${textFieldValueState.text}")
                     sendChat()
                 }
-                IconButton(modifier = Modifier.align(Alignment.BottomEnd), iconPath = "icon_translate_to_eng.png") {
+                IconButton(modifier = Modifier.align(Alignment.BottomEnd), iconPath = "icon_translate_to_eng.png",
+                    tooltipText = "将输入内容翻译成英文") {
                     if (textFieldValueState.text.isBlank()) {
                         toaster.toastFailure("请输入翻译内容")
                         return@IconButton
                     }
-                    textFieldValueState = textFieldValueState.copy("Translate the following into English please:\n${textFieldValueState.text}")
+                    textFieldValueState =
+                        textFieldValueState.copy("Translate the following into English please:\n${textFieldValueState.text}")
                     sendChat()
                 }
             }
@@ -251,11 +271,23 @@ fun ChatPage() {
 }
 
 @Composable
-fun IconButton(modifier: Modifier = Modifier, iconPath: String, onClick: () -> Unit) {
-    TextButton(
-        onClick = onClick,
-        modifier = modifier.size(40.dp)
-    ) {
-        Icon(painterResource(iconPath), null, modifier = Modifier.size(18.dp))
+fun IconButton(tooltipText: String = "", modifier: Modifier = Modifier, iconPath: String, onClick: () -> Unit) {
+
+   if (tooltipText.isBlank()) {
+        TextButton(
+            onClick = onClick,
+            modifier = modifier.size(40.dp)
+        ) {
+            Icon(painterResource(iconPath), null, modifier = Modifier.size(18.dp))
+        }
+    } else {
+        Tooltip(text = tooltipText, modifier=modifier) {
+            TextButton(
+                onClick = onClick,
+                modifier = modifier.size(40.dp)
+            ) {
+                Icon(painterResource(iconPath), null, modifier = Modifier.size(18.dp))
+            }
+        }
     }
 }
