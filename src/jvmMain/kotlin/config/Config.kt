@@ -19,7 +19,6 @@ data class AppConfig(
     val apiKey: String = "",
     val autoStart: Boolean = false,
     val gptName: String = "小彭",
-    val windowPlacement: String = WindowPlacement.Floating.name,
     val fastSendMode: String = FastSendMode.LongPressEnter.name,
     val fastSendLongPressDuration: Long = 300L,
 )

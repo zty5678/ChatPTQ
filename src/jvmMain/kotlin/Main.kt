@@ -13,13 +13,10 @@ import view.Toast
 @Preview
 fun ApplicationScope.AppWindow() {
     var localConfig by remember { mutableStateOf(AppConfig()) }
-    val placement by remember(localConfig) { mutableStateOf(WindowPlacement.valueOf(localConfig.windowPlacement)) }
-
     Window(
         onCloseRequest = ::exitApplication,
         icon = painterResource("184.png"),
         title = "ChatPTQ",
-        state = WindowState(placement = placement)
     ) {
         Toast {
             AppConfig(

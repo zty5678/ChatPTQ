@@ -215,20 +215,6 @@ fun System(appConfig: AppConfig, onChange: OnConfigChange) {
 
         Divider(modifier = Modifier.fillMaxWidth().padding(2.dp), thickness = 1.dp, color = Color.LightGray)
 
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth().clickable {
-            onChange(appConfig.copy(windowPlacement = if (appConfig.windowPlacement == WindowPlacement.Maximized.name) WindowPlacement.Floating.name else WindowPlacement.Maximized.name))
-        }, horizontalArrangement = Arrangement.Start) {
-            Checkbox(
-                appConfig.windowPlacement == WindowPlacement.Maximized.name,
-                modifier = Modifier.size(40.dp),
-                onCheckedChange = {
-                    onChange(appConfig.copy(windowPlacement = if (it) WindowPlacement.Maximized.name else WindowPlacement.Floating.name))
-                })
-            Text("全屏模式", modifier = Modifier.padding(start = 5.dp))
-        }
-
-        Divider(modifier = Modifier.fillMaxWidth().padding(2.dp), thickness = 0.6.dp, color = Color.LightGray)
-
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Start) {
             Text("快捷发送", modifier = Modifier.padding(end = 5.dp))
