@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="41f80b63-457e-4311-97d8-94820b32695b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jvmMain/kotlin/Main.kt" afterDir="false" />
+    <list default="true" id="41f80b63-457e-4311-97d8-94820b32695b" name="Changes" comment="去掉设置里的全屏切换">
+      <change afterPath="$PROJECT_DIR$/src/jvmMain/kotlin/util/LogUtils.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/config/Config.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jvmMain/kotlin/config/Config.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/page/setting/Setting.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jvmMain/kotlin/page/setting/Setting.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jvmMain/kotlin/page/chat/Chat.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jvmMain/kotlin/page/chat/Chat.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +45,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.compose.material/material-desktop/1.5.10/bcbd430b2a300a1761400ecc635ff1beac9042c5/material-desktop-1.5.10-sources.jar!/commonMain/androidx/compose/material/OutlinedTextField.kt" root0="SKIP_INSPECTION" />
+  </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="w2kkwhli" />
   </component>
@@ -69,15 +70,16 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "/Users/jerryzhao/Development/dir-myrepos/github/MyComposeDesktop/ChatPTQ",
+    "last_opened_file_path": "/Users/jerryzhao/Development/dir-myrepos/github/MyComposeDesktop/ChatPTQ/src/jvmMain/kotlin/util",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.keymap"
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/jvmMain/kotlin/util" />
       <recent name="D:\MyAndroidProject\ChatPTQ\src\jvmMain\resources" />
       <recent name="D:\MyAndroidProject\ChatPTQ\launcher" />
       <recent name="D:\MyAndroidProject\ChatPTQ\src\jvmMain\kotlin\repository" />
@@ -156,27 +158,12 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="ChatPTQ [packageReleaseExe]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="packageReleaseExe" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
+    <configuration name="LogUtilsKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="util.LogUtilsKt" />
+      <module name="ptq.jvmMain" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="MainKt" />
@@ -188,10 +175,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Kotlin.LogUtilsKt" />
         <item itemvalue="Gradle.ChatPTQ [createDistributable]" />
         <item itemvalue="Gradle.ChatPTQ [createReleaseDistributable]" />
         <item itemvalue="Gradle.ChatPTQ [packageExe]" />
-        <item itemvalue="Gradle.ChatPTQ [packageReleaseExe]" />
       </list>
     </recent_temporary>
   </component>
@@ -211,12 +198,41 @@
       <option name="project" value="LOCAL" />
       <updated>1686889953307</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="升级compose版本">
+      <option name="closed" value="true" />
+      <created>1701544033274</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1701544033274</updated>
+    </task>
+    <task id="LOCAL-00003" summary="去掉设置里的全屏切换">
+      <option name="closed" value="true" />
+      <created>1701544110167</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1701544110167</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update 1.3.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="update 1.3.0" />
+    <MESSAGE value="升级compose版本" />
+    <MESSAGE value="去掉设置里的全屏切换" />
+    <option name="LAST_COMMIT_MESSAGE" value="去掉设置里的全屏切换" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

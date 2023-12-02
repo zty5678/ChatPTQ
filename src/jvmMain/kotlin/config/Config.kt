@@ -19,7 +19,7 @@ data class AppConfig(
     val apiKey: String = "",
     val autoStart: Boolean = false,
     val gptName: String = "小彭",
-    val fastSendMode: String = FastSendMode.LongPressEnter.name,
+    val fastSendMode: String = FastSendMode.ShiftEnter.name,
     val fastSendLongPressDuration: Long = 300L,
 )
 
@@ -183,7 +183,7 @@ enum class FastSendMode {
 val FastSendMode.ChineseName: String
     get() = when(this) {
         FastSendMode.LongPressEnter -> "长按Enter{duration}毫秒发送//Enter换行"
-        FastSendMode.ShiftEnter -> "Enter发送//Shift+Enter换行（暂不支持）"
-        FastSendMode.ControlEnter -> "Enter发送//Control+Enter换行（暂不支持）"
+        FastSendMode.ShiftEnter -> "Enter发送//Shift+Enter换行"
+        FastSendMode.ControlEnter -> "Enter发送//Control+Enter换行"
         FastSendMode.None -> "无快捷键"
     }
