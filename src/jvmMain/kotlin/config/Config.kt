@@ -109,6 +109,25 @@ fun writeConfig(oldConfig: AppConfig?, newConfig: AppConfig, onSuccess: () -> Un
     }
 }
 
+fun getSystemProxy(defaultVal : UserProxy):UserProxy{
+    val props = System.getProperties()
+    run{
+        val message = props.getProperty("http.proxyHost", "")
+        val port = props.getProperty("http.proxyPort", "")
+        if (!message.isEmpty()){
+            return UserProxy(message, port.toInt())
+        }
+    }
+    run{
+        val message = props.getProperty("https.proxyHost", "")
+        val port = props.getProperty("https.proxyPort", "")
+        if (!message.isEmpty()){
+            return UserProxy(message, port.toInt())
+        }
+    }
+    return defaultVal
+}
+
 fun applyChanges(oldConfig: AppConfig?, newConfig: AppConfig, onSuccess: () -> Unit, onFailure: (String) -> Unit) {
     if (oldConfig == null || oldConfig.autoStart != newConfig.autoStart) {
         if (newConfig.autoStart) {
@@ -128,11 +147,7 @@ fun applyChanges(oldConfig: AppConfig?, newConfig: AppConfig, onSuccess: () -> U
 
     if (oldConfig == null || oldConfig.enableSystemProxy != newConfig.enableSystemProxy) {
         if (newConfig.enableSystemProxy) {
-            val proxy = useSystemProxy() ?: run {
-                onFailure("暂不支持自动获取系统代理\n请手动配置代理")
-                return
-            }
-            retrofitService.setProxy(proxy)
+            retrofitService.setProxy(getSystemProxy(newConfig.userProxy))
         } else {
             retrofitService.setProxy(newConfig.userProxy)
         }
@@ -141,40 +156,6 @@ fun applyChanges(oldConfig: AppConfig?, newConfig: AppConfig, onSuccess: () -> U
     onSuccess()
 }
 
-private fun useSystemProxy(): UserProxy? {
-//    val props = Properties()
-//    val path: Path = Paths.get(System.getProperty("java.home"), "lib", "net.properties")
-//    println(System.getProperty("java.home"))
-//
-//    try {
-//        Files.newBufferedReader(path).use { r ->
-//            props.load(r)
-//            println("props loaded!")
-//        }
-//    } catch (x: IOException) {
-//        System.err.println("props failed loading!")
-//        x.printStackTrace(System.err)
-//    }
-//    // Now you have access to all the net.properties!
-//    // Now you have access to all the net.properties!
-//    System.out.println(props.getProperty("http.proxyHost"))
-////    System.setProperty("java.net.useSystemProxies", "true")
-////    val proxyList: List<Proxy>? = ProxySelector.getDefault().select(URI.create())
-////    println(proxyList?.joinToString(" ") ?: "null")
-////    if (!proxyList.isNullOrEmpty()) {
-////        val proxy = proxyList[0]
-////        if (proxy.type() != Proxy.Type.HTTP) {
-////            return null
-////        }
-////        val address: InetSocketAddress = proxy.address() as InetSocketAddress
-////        val host = address.address.hostAddress
-////        val port = address.port
-////        println("host: $host, port: $port")
-////        return UserProxy(host, port)
-////    }
-//    println(System.getProperty("http.proxyHost", "NONE"))
-    return null
-}
 
 enum class FastSendMode {
     LongPressEnter, ShiftEnter, ControlEnter, None
