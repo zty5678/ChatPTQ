@@ -24,6 +24,7 @@ import config.*
 import kotlinx.coroutines.launch
 import repository.api.AccountService
 import repository.service.request
+import util.Utils
 import util.parseDateFromUnixTime
 import view.Loading
 import view.LocalAppToaster
@@ -146,19 +147,7 @@ fun ApiKey(appConfig: AppConfig, onChange: OnConfigChange) {
             Row(modifier = Modifier.padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                 OutlinedButton(
                     onClick = {
-                        if (isLoading) return@OutlinedButton
-                        isLoading = true
-                        coroutineScope.launch {
-                            request<AccountService> {
-                                val dailyCost = dailyCost()
-                                val bill = billSubscription()
-                                total = bill.hard_limit_usd
-                                used = dailyCost.total_usage / 100
-                                expireTime = parseDateFromUnixTime(bill.access_until.toLong())
-                            }.whatEver {
-                                isLoading = false
-                            }.toastException(toaster)
-                        }
+                        Utils.browseUrl("https://platform.openai.com/account/usage")
                     }, colors = ButtonDefaults.buttonColors(
                         backgroundColor = Color.Transparent
                     )

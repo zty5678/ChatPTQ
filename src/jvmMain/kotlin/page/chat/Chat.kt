@@ -68,11 +68,6 @@ fun ChatPage() {
             toaster.toastFailure("请输入内容")
             return@sendChat
         }
-        if (true){
-            //fixme: 临时代码，提交时删除
-            LogUtils.d("input="+input)
-            return@sendChat
-        }
 
         if (isSending) return@sendChat
 
