@@ -68,6 +68,11 @@ fun ChatPage() {
             toaster.toastFailure("请输入内容")
             return@sendChat
         }
+        if (true){
+            //fixme: 临时代码，提交时删除
+            LogUtils.d("input="+input)
+            return@sendChat
+        }
 
         if (isSending) return@sendChat
 
@@ -183,16 +188,20 @@ fun ChatPage() {
 
                             FastSendMode.ShiftEnter -> {
                                 if (it.key == Key(KeyEvent.VK_ENTER) && it.type == KeyEventType.KeyUp) {
-                                    LogUtils.d("isShiftPressed=${it.isShiftPressed}")
                                     if (!it.isShiftPressed) {
                                         sendChat()
                                         true
                                     } else {
-                                        val newText = textFieldValueState.text + "\n"
+                                        val selectionStartText = textFieldValueState.text.subSequence(0, textFieldValueState.selection.start)
+                                        val selectionEndText = textFieldValueState.text.subSequence(textFieldValueState.selection.end, textFieldValueState.text.length)
+
+                                        val newText = "" + selectionStartText + "\n" + selectionEndText
+                                        val newSelectionStartInt = textFieldValueState.selection.start + 1;
+
                                         textFieldValueState =
                                             textFieldValueState.copy(
                                                 text = newText,
-                                                selection = TextRange(newText.length)
+                                                selection = TextRange(newSelectionStartInt)
                                             )
                                         LogUtils.d("input=${textFieldValueState.text}======")
                                         false
@@ -233,7 +242,7 @@ fun ChatPage() {
                     { Loading() }
                 } else null
             )
-            Box(modifier = Modifier.size(80.dp)) {
+            Box(modifier = Modifier.size(80.dp).padding(start=10.dp)) {
                 IconButton(modifier = Modifier.align(Alignment.TopStart),
                     iconPath = "icon_send.png",
                     tooltipText = "发送") {
